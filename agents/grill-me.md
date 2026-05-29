@@ -4,7 +4,7 @@ mode: primary
 color: "#e74c3c"
 permission:
   edit: deny
-  bash: allow
+  bash: deny
   webfetch: allow
   websearch: allow
 ---
