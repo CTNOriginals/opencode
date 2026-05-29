@@ -1,6 +1,7 @@
 ---
 description: Maintainability critic — evaluates technical debt, cognitive load, coupling, and long-term maintenance cost. Used by the reflect skill.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash: allow

@@ -1,6 +1,7 @@
 ---
 description: Wildcard critic — finds angles and blind spots that the other critics (Pessimist, Security, Maintainability, Simplicity, Edge-Cases) missed. Used by the reflect skill.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash: allow

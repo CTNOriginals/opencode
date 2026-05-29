@@ -1,6 +1,7 @@
 ---
 description: Security critic — identifies vulnerabilities, threat vectors, and security weaknesses in proposals. Used by the reflect skill.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash: deny

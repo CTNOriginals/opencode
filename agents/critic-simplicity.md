@@ -1,6 +1,7 @@
 ---
 description: Simplicity critic — challenges over-engineering, unnecessary abstraction, YAGNI violations, and complexity. Used by the reflect skill.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash: deny

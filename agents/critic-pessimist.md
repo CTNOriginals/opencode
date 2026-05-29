@@ -1,6 +1,7 @@
 ---
 description: Pessimist critic — identifies failure modes and worst-case scenarios in proposals. Used by the reflect skill.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash: deny

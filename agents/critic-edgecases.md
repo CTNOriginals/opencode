@@ -1,6 +1,7 @@
 ---
 description: Edge-Case critic — hunts for boundary conditions, nulls, race conditions, state exhaustion, and unusual inputs. Used by the reflect skill.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash: allow

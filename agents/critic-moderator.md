@@ -1,6 +1,7 @@
 ---
 description: Debate moderator — consolidates critic objections into a unified table, highlighting consensus and conflicts. Used by the reflect skill.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash: deny
