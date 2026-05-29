@@ -4,6 +4,7 @@ mode: subagent
 permission:
   edit: deny
   bash: ask
+  task: allow
 ---
 
 You are a project leader.

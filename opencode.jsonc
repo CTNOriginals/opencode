@@ -1,4 +1,23 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"default_agent": "grill-me"
+	"default_agent": "grill-me",
+	"agent": {
+		"manager": {
+			"permission": {
+				"task": {
+					"*": "deny",
+					"project-leader": "allow"
+				}
+			}
+		},
+		"project-leader": {
+			"permission": {
+				"task": {
+					"*": "allow",
+					"manager": "deny",
+					"project-leader": "deny"
+				}
+			}
+		}
+	}
 }
