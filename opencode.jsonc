@@ -1,16 +1,4 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "default_agent": "plan",
-  "agent": {
-    "grill-me": {
-      "description": "Interview the user relentlessly about a plan or design until reaching shared understanding",
-      "color": "#e74c3c",
-      "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "webfetch": "allow",
-        "websearch": "allow"
-      }
-    }
-  }
+	"$schema": "https://opencode.ai/config.json",
+	"default_agent": "grill-me"
 }

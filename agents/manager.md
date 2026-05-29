@@ -1,9 +1,10 @@
 ---
 description: Oversees entire projects from start to finish. Coordinates multiple project-leaders to execute distinct work categories in parallel. Only the user can invoke this agent.
-mode: subagent
+mode: primary
 permission:
   edit: deny
   bash: ask
+  task: allow
 ---
 
 You are a project manager.
