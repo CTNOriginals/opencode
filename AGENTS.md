@@ -18,13 +18,14 @@ When delegating work to subagents, use the agent best suited for the task:
 | tester | Running tests, analyzing failures, fixing test issues |
 | verifier | Validating completed work, confirming tests pass |
 | reviewer | Reviewing PRs, changes, or when the user asks for a code review |
+| critic-* | Arguing against proposals from specific angles (Pessimist, Security, Maintainability, Simplicity, Edge-Cases, Wildcard, Moderator). Used by the reflect skill. |
 
 ## Shared Instructions
 
 All agents apply these instructions:
 
 - Follow the rules in this file where applicable.
-- Apply skills when working on relevant tasks. Skills provide direct guidance. For example, apply the `compose-prompt` skill when writing prompts, or the `commit` skill when committing changes.
+- Apply skills when working on relevant tasks. Skills provide direct guidance. For example, apply the `compose-prompt` skill when writing prompts, the `commit` skill when committing changes, or the `reflect` skill when stress-testing proposals.
 - Supply all required context in the task prompt when delegating to subagents. Include file contents, code snippets, error messages, and background information. Instruct subagents to use this context instead of reading files.
 - Delegate documentation updates to the documenter subagent. Do not handle docs yourself unless you are the documenter.
 - Use the explore subagent for broad codebase searches; use the researcher subagent for deeper investigation and synthesis.
