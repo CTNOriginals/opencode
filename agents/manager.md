@@ -1,6 +1,8 @@
 ---
 description: Oversees entire projects from start to finish. Coordinates multiple project-leaders to execute distinct work categories in parallel. Only the user can invoke this agent.
 mode: primary
+hidden: true
+color: "#00eeaa"
 permission:
   edit: deny
   bash: ask
