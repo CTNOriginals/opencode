@@ -15,7 +15,8 @@
 				"task": {
 					"*": "allow",
 					"manager": "deny",
-					"project-leader": "deny"
+					"project-leader": "deny",
+					"critic-*": "deny"
 				}
 			}
 		}
