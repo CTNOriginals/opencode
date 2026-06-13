@@ -29,6 +29,7 @@ All agents apply these instructions:
 - Supply all required context in the task prompt when delegating to subagents. Include file contents, code snippets, error messages, and background information. Instruct subagents to use this context instead of reading files.
 - Delegate documentation updates to the documenter subagent. Do not handle docs yourself unless you are the documenter.
 - Use the explore subagent for broad codebase searches; use the researcher subagent for deeper investigation and synthesis.
+- Match the code style of the surrounding project. For this Neovim config, that means tabs for indentation (check existing files before writing new ones).
 
 ## Go Conventions
 
