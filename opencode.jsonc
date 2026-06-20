@@ -1,17 +1,6 @@
 {
 	"$schema": "https://opencode.ai/config.json",
 	"default_agent": "plan"
-	// "permission": {
-	// 	"edit": { "/tmp/opencode-policy": "allow", "*": "ask" },
-	// 	"read": { "/tmp/opencode-policy": "allow", "*": "ask" },
-	// 	"glob": { "/tmp/opencode-policy": "allow", "*": "ask" }
-	// },
-	// "command": {
-	// 	"auto-deny": {
-	// 		"template": "Toggle permission auto-deny. Read /tmp/opencode-policy: if it contains 'deny', write 'ask' to it; otherwise write 'deny' to it. Use the edit tool to write the file.",
-	// 		"description": "Toggle auto-deny mode for permission prompts"
-	// 	}
-	// }
 	// "agent": {
 	// 	"manager": {
 	// 		"permission": {
