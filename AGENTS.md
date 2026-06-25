@@ -14,3 +14,4 @@ If this is the case, ALWAYS read this before writing any code and comply with th
 Use common ASCII characters in all code, comments, docs, and commit messages.
 - No em-dashes or en-dashes; use a normal hyphen (`-`)
 - No special unicode; use ASCII equivalents for punctuation
+
