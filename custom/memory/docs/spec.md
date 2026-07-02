@@ -5,9 +5,12 @@ A multi-stage memory pipeline for opencode agents. Agents are read-only consumer
 ## Pipeline Stages
 
 ### 1. Prefrontal Cortex (active context)
-- Holds current session context, updated rapidly.
-- Items not revisited within a short window are forgotten.
-- Items that persist move to the next stage.
+
+Ring buffer of `{ score, content }` structs.
+
+- New items are pushed to the front. When the buffer is full, the tail item is evicted (natural forgetting).
+- On reuse: item is moved back to the front; score and content are updated with any new relevant context.
+- When an item's score crosses a promotion threshold, it is sent to the hippocampus.
 
 ### 2. Hippocampus / Encoding (short-term)
 - Receives context from the prefrontal cortex.
