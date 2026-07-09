@@ -1,4 +1,21 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"default_agent": "plan"
+	"default_agent": "plan",
+	"mcp": {
+		"memory-server": {
+			"type": "local",
+			"command": ["./build/memory-server"],
+			"cwd": "/home/ctn/.config/opencode/custom/memory",
+			"enabled": true
+		}
+	},
+	"experimental": {
+		"hook": {
+			"session_completed": [
+				{
+					"command": ["/home/ctn/.config/opencode/custom/memory/write-session.sh"]
+				}
+			]
+		}
+	}
 }
