@@ -30,17 +30,15 @@ Each stage maintains a score for every memory item. Score determines retention a
 - `r` = rate (base retention, configurable per stage)
 - `w` = weight (importance of the item, e.g. mistakes-to-learn-from have higher weight)
 
-```
-every tick:
-  t += 1
-  score -= r * (t / 100) * w
+score = `w * r^t`
 
-on reuse:
-  score += r * w
-  t = 0
-```
+| Stage | rate | Threshold (high/low) | Behavior |
+|---|---|---|---|
+| Prefrontal cortex | 0.85 | 0.7 / 0.5 | promote to hippocampus when score > high; evict from ring buffer when score < low |
+| Hippocampus | 0.95 | 0.7 / 0.3 | promote to neocortex when score > high; forget when score < low |
+| Neocortex | 0.98 | 0 / 0.6 | high n/a; keep only if final score > low at session end |
 
-Items are forgotten when score drops below a stage-specific threshold. Higher `r` means slower decay; more frequent reuse keeps score elevated.
+Items are forgotten when score drops below a stage's low threshold (or promoted when score rises above its high threshold). Higher `r` means slower decay; more frequent reuse keeps score elevated.
 
 ## System Architecture
 
