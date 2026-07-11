@@ -6,3 +6,4 @@ bun.lock
 **/*.db
 **/*.log
 **/build/
+.nvim
