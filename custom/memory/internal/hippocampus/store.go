@@ -101,6 +101,8 @@ func (s *Store) UpdateScore(id int64, score float64, tickCount int) error {
 }
 
 func (s *Store) AdvanceTicks() ([]MemoryItem, error) {
+	// Read all items first, then close rows before issuing writes.
+	// This avoids deadlock with MaxOpenConns=1 on the writer connection.
 	rows, err := s.writer.Query(
 		`SELECT id, content, score, weight, rate, tick_count, created_at, updated_at
 		 FROM hippocampus`,
@@ -108,19 +110,28 @@ func (s *Store) AdvanceTicks() ([]MemoryItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
 
-	now := time.Now().Format(time.RFC3339)
-	var promoted []MemoryItem
-
+	var items []MemoryItem
 	for rows.Next() {
 		var item MemoryItem
 		err := rows.Scan(&item.ID, &item.Content, &item.Score, &item.Weight, &item.Rate,
 			&item.TickCount, &item.CreatedAt, &item.UpdatedAt)
 		if err != nil {
+			rows.Close()
 			return nil, err
 		}
+		items = append(items, item)
+	}
+	if err := rows.Err(); err != nil {
+		rows.Close()
+		return nil, err
+	}
+	rows.Close()
 
+	now := time.Now().Format(time.RFC3339)
+	var promoted []MemoryItem
+
+	for _, item := range items {
 		item.TickCount++
 		newScore := CalculateScore(item.Weight, item.Rate, item.TickCount)
 
@@ -154,5 +165,5 @@ func (s *Store) AdvanceTicks() ([]MemoryItem, error) {
 		}
 	}
 
-	return promoted, rows.Err()
+	return promoted, nil
 }

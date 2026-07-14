@@ -61,7 +61,11 @@ func (p *Pipeline) buildPrompt(turnContext string) string {
   "new_items": [
     {"content": "<string>", "weight": <float>, "rate": <float>}
   ]
-}`)
+}
+Rules for new_items:
+- weight MUST be 0.9 or higher (e.g., 0.9, 0.95, 1.0)
+- rate MUST be 0.85
+- Only include genuinely memorable facts, not routine exchanges`)
 	return b.String()
 }
 
@@ -83,13 +87,13 @@ func (p *Pipeline) ProcessTurn(turnContext string) {
 				p.rb.Reuse(d.PFCIndex, d.UpdatedContent, d.NewWeight)
 			}
 
-			// Step 3: Add new items
+			// Step 3: Add new items (ignore LLM-provided rate, use PFC default)
 			for _, ni := range resp.NewItems {
 				item := pfc.MemoryItem{
 					Content:   ni.Content,
 					Score:     ni.Weight,
 					Weight:    ni.Weight,
-					Rate:      ni.Rate,
+					Rate:      0.85,
 					TickCount: 0,
 					CreatedAt: time.Now(),
 				}

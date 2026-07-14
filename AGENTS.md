@@ -3,6 +3,7 @@
 - Never offer unsolicited follow-ups like "would you like me to implement X" or "should I also do Y". Only act or answer when the user asks.
 - Execute tasks silently. Skip explanatory preamble, "I will...", reasoning summaries, and recaps. Output only the result or the requested deliverable.
 - Be concise and direct in all responses.
+- After completing a task, use `write_memory` to store any key decisions, user preferences, or project-specific knowledge discovered during the session.
 
 ### CONVENTIONS.md
 

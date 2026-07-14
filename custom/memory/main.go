@@ -3,22 +3,81 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
+	"github.com/opencode/memory/internal/hippocampus"
+	"github.com/opencode/memory/internal/llm"
 	"github.com/opencode/memory/internal/neocortex"
+	"github.com/opencode/memory/internal/pfc"
 	"github.com/opencode/memory/internal/sqlite"
 	"github.com/opencode/memory/internal/writer"
 )
 
-var llmStub writer.LLMFunc = func(prompt string) (string, error) {
-	return `{"reuse_decisions":[],"new_items":[]}`, nil
+func main() {
+	log.SetFlags(0)
+	log.SetPrefix("[memory-server] ")
+
+	if len(os.Args) > 1 && os.Args[1] == "process-session" {
+		runProcessSession()
+		return
+	}
+
+	runMCPServer()
 }
 
-func main() {
+func runProcessSession() {
+	dbPath := os.Getenv("MEMORY_DB_PATH")
+	if dbPath == "" {
+		dbPath = "memory.db"
+	}
+
+	writerDB, err := sqlite.OpenWriter(dbPath)
+	if err != nil {
+		log.Printf("failed to open writer connection: %v", err)
+		return
+	}
+	defer writerDB.Close()
+
+	readerDB, err := sqlite.OpenReader(dbPath)
+	if err != nil {
+		log.Printf("failed to open reader connection: %v", err)
+		return
+	}
+	defer readerDB.Close()
+
+	if err := sqlite.ApplySchema(writerDB); err != nil {
+		log.Printf("failed to apply schema: %v", err)
+		return
+	}
+
+	contextBytes, err := io.ReadAll(os.Stdin)
+	if err != nil {
+		log.Printf("failed to read stdin: %v", err)
+		return
+	}
+	turnContext := strings.TrimSpace(string(contextBytes))
+	if turnContext == "" {
+		log.Printf("empty turn context, nothing to process")
+		return
+	}
+
+	hcStore := hippocampus.NewStore(writerDB, readerDB)
+	ncStore := neocortex.NewStore(writerDB, readerDB)
+	rb := pfc.NewRingBuffer(50)
+	caller := llm.NewCaller()
+
+	pipeline := writer.NewPipeline(rb, hcStore, ncStore, caller)
+	pipeline.ProcessTurn(turnContext)
+
+	log.Printf("session processed successfully")
+}
+
+func runMCPServer() {
 	dbPath := os.Getenv("MEMORY_DB_PATH")
 	if dbPath == "" {
 		dbPath = "memory.db"
@@ -41,6 +100,7 @@ func main() {
 	}
 
 	nc := neocortex.NewStore(writerDB, readerDB)
+	caller := llm.NewCaller()
 
 	s := server.NewMCPServer("memory-server", "1.0.0")
 
@@ -108,7 +168,7 @@ func main() {
 				}
 			}
 		} else {
-			keywords = writer.LLMKeywords(llmStub, content)
+			keywords = writer.LLMKeywords(caller, content)
 		}
 
 		id, err := nc.Insert(content, 1.0, keywords)
